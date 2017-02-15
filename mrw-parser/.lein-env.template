@@ -1,0 +1,8 @@
+{:elasticsearch-url "http://localhost:9200"
+ :elasticsearch-index "mrw"
+ :elasticsearch-mapping "reaction"
+ :nlp-url "http://localhost:5000"
+ :reddit-username ""
+ :reddit-password ""
+ :reddit-key ""
+ :reddit-secret ""}

@@ -1,0 +1,68 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    display: flex;
+}
+
+a {
+    color: #4078c0;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#main {
+    display: flex;
+}
+
+.reaction {
+    min-width: 400px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.reaction img {
+    width: 100%;
+    height: auto;
+}
+
+#container {
+    min-width: 400px;
+}
+
+#container iframe, #container blockquote {
+    min-width: 400px;
+}
+
+.search-field {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#footer {
+    margin-top: 15px;
+    padding: 15px;
+}
+
+@media (min-width:1025px) {
+    .reaction {
+        max-width: 800px;
+    }
+
+    #container {
+        min-width: 800px;
+    }
+
+    #container iframe, #container blockquote {
+        min-width: 800px;
+    }
+}
