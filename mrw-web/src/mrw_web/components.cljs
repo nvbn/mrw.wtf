@@ -27,7 +27,7 @@
   [ui/paper {:id "footer"}
    [:p "Powered by " [:a {:href "https://www.reddit.com/dev/api/"} "reddit"]
     " and " [:a {:href "https://api.imgur.com/"} "imgur"] " api. "
-    "Source code availbale on "
+    "Source code available on "
     [:a {:href "https://github.com/nvbn/mrw.wtf"} "github"] "."]])
 
 (def app
