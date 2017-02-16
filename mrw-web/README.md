@@ -1,4 +1,4 @@
-# Frontend [mrw.wtf](https://mrw.wtf)
+# Frontend of [mrw.wtf](https://mrw.wtf)
 
 ## Usage
 
