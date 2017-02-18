@@ -72,13 +72,12 @@ class FindReaction extends Component {
         return (<Text>Nothing found for "{this.props.query}"</Text>);
       case constants.STATE_FOUND:
         return (
-          <View>
-            <Image source={{uri: this.props.reaction.uri}}
-                   style={{
+          <Image source={{uri: this.props.reaction.uri}}
+                 style={{
                     width: this.state.width,
                     height: this.state.height,
-               }}/>
-          </View>
+                 }}
+          />
         );
       default:
         console.warn('Unexpected state', this.props.state);

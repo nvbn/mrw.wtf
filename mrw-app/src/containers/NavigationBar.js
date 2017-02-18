@@ -6,7 +6,7 @@ import { shareReaction } from '../actions';
 import getNavigationBar, { LeftButton, RightButton, Title } from '../components/navigation-bar';
 
 const WrappedRightButton = connect(
-  ({reaction, sharing}, ownProps) => ({reaction, sharing, ...ownProps}),
+  ({reaction, state, sharing}, ownProps) => ({reaction, sharing, state, ...ownProps}),
   (dispatch) => bindActionCreators({shareReaction}, dispatch),
 )(RightButton);
 

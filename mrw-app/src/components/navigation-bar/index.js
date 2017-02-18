@@ -32,9 +32,9 @@ export const LeftButton = ({type}, navigator) => {
   }
 };
 
-export const RightButton = ({type, navigator, reaction, sharing, shareReaction}) => {
+export const RightButton = ({type, navigator, reaction, sharing, state, shareReaction}) => {
   if (type === constants.ROUTE_FIND_REACTION) {
-    if(sharing) {
+    if (sharing) {
       return (
         <View style={styles.button}>
           <View style={styles.centered}>
@@ -42,7 +42,7 @@ export const RightButton = ({type, navigator, reaction, sharing, shareReaction})
           </View>
         </View>
       );
-    } else if (reaction && reaction.url) {
+    } else if (state === constants.STATE_FOUND) {
       return (
         <TouchableHighlight
           onPress={() => shareReaction(reaction)}

@@ -1,3 +1,5 @@
 export const DEBUG = true;
 
+export const PERSIST_STORAGE = true;
+
 export const API_URL = 'https://mrw.wtf';
