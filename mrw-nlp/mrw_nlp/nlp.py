@@ -35,5 +35,6 @@ def get_classifier():
 classifier = get_classifier()
 
 
-def get_sentiment(text):
+def get_sentiment(text: str) -> str:
+    """Get sentiment for text."""
     return classifier.classify(to_features(text))

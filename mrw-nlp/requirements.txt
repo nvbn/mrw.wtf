@@ -1,2 +1,4 @@
 Flask==0.12
 nltk==3.2.2
+pytest==3.0.6
+pytest-flask==0.10.0
