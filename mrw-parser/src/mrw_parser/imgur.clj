@@ -16,7 +16,6 @@
                             :as :json})]
     (-> response :body :data)))
 
-; TODO: add available video links
 (defn update-links
   "Put direct url to image."
   [reaction]
