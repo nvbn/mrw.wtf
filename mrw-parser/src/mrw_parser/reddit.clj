@@ -2,7 +2,10 @@
   (:require [clojure.string :as string]
             [clojure.tools.logging :as log]
             [clj-http.client :as http]
+            [mrw-parser.imgur :as imgur]
             [mrw-parser.conf :as conf]))
+
+(def ^:dynamic *access-token*)
 
 (defn get-access-token
   []
@@ -15,19 +18,20 @@
                              :as :json})]
     (-> response :body :access_token)))
 
+(defmacro with-reddit
+  "Authorize to reddit."
+  [& body]
+  `(binding [*access-token* (get-access-token)]
+     ~@body))
+
 (defn- fetch
-  [access-token & {:as params}]
+  [& {:as params}]
   (let [response (http/get "https://oauth.reddit.com/r/reactiongifs/top/.json"
                            {:headers {:User-Agent "mrw-parser.reddit"
-                                      :Authorization (str "Bearer" access-token)}
+                                      :Authorization (str "Bearer " *access-token*)}
                             :as :json
                             :query-params params})]
     (:body response)))
-
-(defn- get-full-url
-  [url]
-  (let [[_ id _] (re-find #".*imgur.com/(\w+)(\..*)*" url)]
-    (str "http://i.imgur.com/" id ".gif")))
 
 (defn- parse-page
   [page]
@@ -35,35 +39,35 @@
        :data
        :children
        (map :data)
-       (filter #(string/index-of (:url %) "imgur.com/"))
-       (map #(update % :url get-full-url))))
+       (filter imgur/is-imgur?)
+       (map imgur/update-links)
+       (map #(select-keys % [:title :url :name :sentiment]))))
 
 (defn get-today-top
-  [access-token]
+  "Get today top reactions."
+  []
   (log/info "Get today top from reddit")
-  (parse-page (fetch access-token
-                     :t "day"
+  (parse-page (fetch :t "day"
                      :limit 100
                      :count 100)))
 
 (defn- get-top-page
-  [access-token after]
-  (let [page (fetch access-token
-                    :t "all"
+  [after]
+  (let [page (fetch :t "all"
                     :limit 100
                     :count 100
                     :after after)]
     (parse-page page)))
 
 (defn get-all-top
-  ([access-token pages]
+  "Get top reaction of all time."
+  ([pages]
    (log/info "Start getting all top from reddit, pages =" pages)
-   (get-all-top access-token pages ""))
-  ([access-tolen pages after]
+   (get-all-top pages ""))
+  ([pages after]
    (if (zero? pages)
      []
-     (let [page (get-top-page access-tolen after)]
+     (let [page (get-top-page after)]
        (log/info "Get all top from reddit, page =" pages)
-       (lazy-seq (concat page (get-all-top access-tolen
-                                           (dec pages)
+       (lazy-seq (concat page (get-all-top (dec pages)
                                            (-> page last :name))))))))

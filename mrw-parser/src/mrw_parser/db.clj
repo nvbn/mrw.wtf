@@ -12,6 +12,7 @@
                                                               :store true}}}})
 
 (defn create-index!
+  "Create index in elasticsearch."
   []
   (log/info "Create index in elasticsearch")
   (try
@@ -22,6 +23,7 @@
       (log/warn "Index already exists!"))))
 
 (defn put!
+  "Put reaction in elasticsearch."
   [{:keys [title url name sentiment]}]
   (log/info "Put in elasticsearch name =" name)
   (let [endpoint (string/join "/" [conf/elasticsearch-url conf/elasticsearch-index

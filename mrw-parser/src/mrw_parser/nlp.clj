@@ -3,6 +3,7 @@
             [mrw-parser.conf :as conf]))
 
 (defn get-sentiment
+  "Get sentiment from nlp service."
   [text]
   (let [response (http/post (str conf/nlp-url "/api/v1/sentiment/")
                             {:form-params {:text text}

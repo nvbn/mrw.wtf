@@ -6,6 +6,7 @@
   (:gen-class))
 
 (defn parse!
+  "Parser reddit mrws."
   [get-posts]
   (let [token (reddit/get-access-token)
         posts (get-posts token)
@@ -26,7 +27,8 @@
     (if (:errors parsed-args)
       (doseq [error (:errors parsed-args)]
         (println error))
-      (condp = (-> parsed-args :options :type)
-        :initial (do (db/create-index!)
-                     (parse! #(reddit/get-all-top % 1000)))
-        :daily (parse! reddit/get-today-top)))))
+      (reddit/with-reddit
+        (condp = (-> parsed-args :options :type)
+          :initial (do (db/create-index!)
+                       (parse! #(reddit/get-all-top % 1000)))
+          :daily (parse! reddit/get-today-top))))))
