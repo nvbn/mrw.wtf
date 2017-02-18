@@ -25,16 +25,13 @@
 
 (defn put!
   "Put reaction in elasticsearch."
-  [{:keys [title url name sentiment]}]
+  [{:keys [name] :as reaction}]
   (log/info "Put in elasticsearch name =" name)
   (let [endpoint (string/join "/" [conf/elasticsearch-url conf/elasticsearch-index
                                    conf/elasticsearch-mapping name])]
     (try+
       (http/put endpoint {:content-type :json
-                          :form-params {:title title
-                                        :url url
-                                        :name name
-                                        :sentiment sentiment}})
+                          :form-params reaction})
       (catch Object _
         (log/error (:throwable &throw-context) "can't put reaction to db")
         (throw+)))))

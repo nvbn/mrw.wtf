@@ -5,4 +5,5 @@
  :reddit-username ""
  :reddit-password ""
  :reddit-key ""
- :reddit-secret ""}
+ :reddit-secret ""
+ :imgur-id ""}

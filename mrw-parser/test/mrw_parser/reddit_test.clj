@@ -2,7 +2,8 @@
   (:require [clojure.test :refer [deftest is]]
             [clj-http.client :as http]
             [mrw-parser.reddit :as reddit]
-            [mrw-parser.conf :as conf]))
+            [mrw-parser.conf :as conf]
+            [mrw-parser.imgur :as imgur]))
 
 (deftest test-get-access-token
   (let [request (atom [])]
@@ -119,7 +120,7 @@
                                                        :score 10354,
                                                        :saved false,
                                                        :report_reasons nil,
-                                                       :url "http://i.imgur.com/2BT0LZE.gifv",
+                                                       :url "http://i.imgur.com/2BT0LZE.gif",
                                                        :post_hint "link",
                                                        :author_flair_css_class "captFlair",
                                                        :downs 0,
@@ -146,6 +147,7 @@
   [request-atom & body]
   `(let [~request-atom (atom [])]
      (with-redefs [reddit/get-access-token (constantly "token")
+                   imgur/update-links identity
                    http/get (fn [url# data#]
                               (reset! ~request-atom [url# data#])
                               reddit-response)]

@@ -16,3 +16,5 @@
 (def reddit-key (env :reddit-key))
 
 (def reddit-secret (env :reddit-secret))
+
+(def imgur-id (env :imgur-id))
