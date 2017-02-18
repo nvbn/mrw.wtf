@@ -2,6 +2,7 @@
   (:require [clojure.string :as string]
             [clojure.tools.logging :as log]
             [clj-http.client :as http]
+            [slingshot.slingshot :refer [try+ throw+]]
             [mrw-parser.imgur :as imgur]
             [mrw-parser.conf :as conf]))
 
@@ -9,13 +10,17 @@
 
 (defn get-access-token
   []
-  (let [response (http/post "https://www.reddit.com/api/v1/access_token"
-                            {:form-params {:grant_type "password"
-                                           :username conf/reddit-username
-                                           :password conf/reddit-password}
-                             :basic-auth [conf/reddit-key conf/reddit-secret]
-                             :headers {:User-Agent "mrw-parser.reddit"}
-                             :as :json})]
+  (let [response (try+
+                   (http/post "https://www.reddit.com/api/v1/access_token"
+                              {:form-params {:grant_type "password"
+                                             :username conf/reddit-username
+                                             :password conf/reddit-password}
+                               :basic-auth [conf/reddit-key conf/reddit-secret]
+                               :headers {:User-Agent "mrw-parser.reddit"}
+                               :as :json})
+                   (catch Object _
+                     (log/error (:throwable &throw-context) "can't get access token")
+                     (throw+)))]
     (-> response :body :access_token)))
 
 (defmacro with-reddit
@@ -26,11 +31,15 @@
 
 (defn- fetch
   [& {:as params}]
-  (let [response (http/get "https://oauth.reddit.com/r/reactiongifs/top/.json"
-                           {:headers {:User-Agent "mrw-parser.reddit"
-                                      :Authorization (str "Bearer " *access-token*)}
-                            :as :json
-                            :query-params params})]
+  (let [response (try+
+                   (http/get "https://oauth.reddit.com/r/reactiongifs/top/.json"
+                             {:headers {:User-Agent "mrw-parser.reddit"
+                                        :Authorization (str "Bearer " *access-token*)}
+                              :as :json
+                              :query-params params})
+                   (catch Object _
+                     (log/error (:throwable &throw-context) "can't fetch reactions")
+                     (throw+)))]
     (:body response)))
 
 (defn- parse-page

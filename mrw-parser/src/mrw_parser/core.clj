@@ -8,8 +8,7 @@
 (defn parse!
   "Parser reddit mrws."
   [get-posts]
-  (let [token (reddit/get-access-token)
-        posts (get-posts token)
+  (let [posts (get-posts)
         with-sentiments (map posts #(assoc % :sentiment (get-sentiment (:title %))))]
     (doseq [post posts
             :let [sentiment (get-sentiment (:title post))]]

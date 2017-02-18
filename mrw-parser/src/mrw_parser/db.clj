@@ -2,6 +2,7 @@
   (:require [clojure.tools.logging :as log]
             [clojure.string :as string]
             [clj-http.client :as http]
+            [slingshot.slingshot :refer [try+ throw+]]
             [mrw-parser.conf :as conf]))
 
 (def mappings {conf/elasticsearch-mapping {:properties {:title {:type "text"
@@ -15,11 +16,11 @@
   "Create index in elasticsearch."
   []
   (log/info "Create index in elasticsearch")
-  (try
+  (try+
     (http/put (str conf/elasticsearch-url "/" conf/elasticsearch-index)
               {:content-type :json
                :form-params {:mappings mappings}})
-    (catch Exception e
+    (catch Object _
       (log/warn "Index already exists!"))))
 
 (defn put!
@@ -28,8 +29,12 @@
   (log/info "Put in elasticsearch name =" name)
   (let [endpoint (string/join "/" [conf/elasticsearch-url conf/elasticsearch-index
                                    conf/elasticsearch-mapping name])]
-    (http/put endpoint {:content-type :json
-                        :form-params {:title title
-                                      :url url
-                                      :name name
-                                      :sentiment sentiment}})))
+    (try+
+      (http/put endpoint {:content-type :json
+                          :form-params {:title title
+                                        :url url
+                                        :name name
+                                        :sentiment sentiment}})
+      (catch Object _
+        (log/error (:throwable &throw-context) "can't put reaction to db")
+        (throw+)))))
