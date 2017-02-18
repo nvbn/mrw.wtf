@@ -33,7 +33,6 @@ export const LeftButton = ({type}, navigator) => {
 };
 
 export const RightButton = ({type, navigator, reaction, sharing, shareReaction}) => {
-  console.log(sharing);
   if (type === constants.ROUTE_FIND_REACTION) {
     if(sharing) {
       return (

@@ -7,14 +7,16 @@ import {
   Text,
   TouchableHighlight,
 } from 'react-native';
+import * as constants from '../../constants';
 import styles from './styles';
 
 class FindReaction extends Component {
   propTypes: {
     query: string,
-    reaction: {url: string, name: string, title: string},
+    reaction: {url: string, name: string, title: string, uri: string},
     fetchReaction: (query: string) => void,
     sharing: boolean,
+    state: string,
   };
 
   constructor() {
@@ -31,16 +33,14 @@ class FindReaction extends Component {
     this.props.fetchReaction(value);
   }
 
-  _calculateHeight(url) {
-    Image.prefetch(url).then(() =>
-      Image.getSize(url, (imageWidth, imageHeight) => {
-        const width = Dimensions.get('window').width - 10;
-        this.setState({
-          width,
-          height: (width / imageWidth) * imageHeight,
-        })
+  _calculateHeight(uri) {
+    Image.getSize(uri, (imageWidth, imageHeight) => {
+      const width = Dimensions.get('window').width - 10;
+      this.setState({
+        width,
+        height: (width / imageWidth) * imageHeight,
       })
-    );
+    });
   }
 
   _resetImage() {
@@ -51,32 +51,37 @@ class FindReaction extends Component {
   }
 
   componentWillReceiveProps({reaction}) {
-    if (reaction && reaction.url) {
-      this._calculateHeight(reaction.url);
+    if (reaction && reaction.uri) {
+      this._calculateHeight(reaction.uri);
     }
   }
 
   componentWillMount() {
-    if (this.props.reaction && this.props.reaction.url) {
-      this._calculateHeight(this.props.reaction.url);
+    if (this.props.reaction && this.props.reaction.uri) {
+      this._calculateHeight(this.props.reaction.uri);
     }
   }
 
   _renderReaction() {
-    if (!this.props.reaction) {
-      return (<View />);
-    } else if (this.props.reaction && !this.state.height) {
-      return (<Text>Loading...</Text>);
-    } else {
-      return (
-        <View>
-          <Image source={{uri: this.props.reaction.url}}
-                 style={{
+    switch (this.props.state) {
+      case constants.STATE_EMPTY_QUERY:
+        return (<Text>Start searching reactions!</Text>);
+      case constants.STATE_SEARCHING:
+        return (<Text>Searching...</Text>);
+      case constants.STATE_NOT_FOUND:
+        return (<Text>Nothing found for "{this.props.query}"</Text>);
+      case constants.STATE_FOUND:
+        return (
+          <View>
+            <Image source={{uri: this.props.reaction.uri}}
+                   style={{
                     width: this.state.width,
                     height: this.state.height,
                }}/>
-        </View>
-      );
+          </View>
+        );
+      default:
+        console.warn('Unexpected state', this.props.state);
     }
   }
 

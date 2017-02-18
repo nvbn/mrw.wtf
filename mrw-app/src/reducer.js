@@ -1,9 +1,10 @@
 import * as constants from './constants';
 
 const initialState = {
-  reaction: undefined,
+  reaction: {},
   query: '',
   sharing: false,
+  state: constants.STATE_EMPTY_QUERY,
 };
 
 export default (previousState = initialState, action) => {
@@ -12,6 +13,7 @@ export default (previousState = initialState, action) => {
       return {
         ...previousState,
         query: action.query,
+        reaction: {},
       };
     case constants.ACTION_REACTION_FETCHED:
       return {
@@ -27,6 +29,11 @@ export default (previousState = initialState, action) => {
       return {
         ...previousState,
         sharing: false,
+      };
+    case constants.ACTION_CHANGE_STATE:
+      return {
+        ...previousState,
+        state: action.state,
       };
     default:
       return previousState;

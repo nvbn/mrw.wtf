@@ -3,8 +3,8 @@ import { bindActionCreators } from 'redux';
 import { fetchReaction } from '../actions';
 import FindReaction from '../components/find-reaction';
 
-const mapStateToProps = ({query, reaction, sharing}) => ({
-  query, reaction, sharing,
+const mapStateToProps = ({query, reaction, sharing, state}) => ({
+  query, reaction, sharing, state,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
