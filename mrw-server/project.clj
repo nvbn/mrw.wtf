@@ -11,6 +11,7 @@
                  [ring/ring-json "0.4.0"]
                  [compojure "1.5.2"]
                  [slingshot "0.12.2"]
-                 [environ "1.1.0"]]
+                 [environ "1.1.0"]
+                 [ring/ring-mock "0.3.0"]]
   :plugins [[lein-ring "0.11.0"]]
   :ring {:handler mrw-server.core/app})
