@@ -28,9 +28,9 @@ describe('LeftButton component', () => {
       LeftButton({type: constants.ROUTE_ABOUT}, navigator)
     ).toJSON();
 
-    expect(rendered.children[0].children[0].type).toBe('Text');
+    expect(rendered.children[0].type).toBe('Text');
     expect(
-      last(rendered.children[0].children[0].props.style).fontFamily
+      last(rendered.children[0].props.style).fontFamily
     ).toBe('Material Icons');
 
     rendered.props.onPress();
@@ -38,9 +38,22 @@ describe('LeftButton component', () => {
   });
 
   it('When other page opened', () => {
+    jest.mock('TouchableHighlight', () => 'TouchableHighlight');
+    const navigator = {
+      push: jest.fn(),
+    };
+
+    const rendered = ReactTestRenderer.create(
+      LeftButton({type: constants.ROUTE_FIND_REACTION}, navigator)
+    ).toJSON();
+
+    expect(rendered.children[0].type).toBe('Text');
     expect(
-      LeftButton({type: constants.ROUTE_FIND_REACTION}, jest.fn())
-    ).toBeUndefined();
+      last(rendered.children[0].props.style).fontFamily
+    ).toBe('Material Icons');
+
+    rendered.props.onPress();
+    expect(navigator.push).toBeCalledWith(routes.about);
   })
 });
 
@@ -57,7 +70,7 @@ describe('RightButton', () => {
       />
     ).toJSON();
 
-    expect(rendered).toEqual({"children": null, "props": {}, "type": "View"});
+    expect(rendered).toBe(null);
   });
 
   it('While sharing', () => {
@@ -72,9 +85,9 @@ describe('RightButton', () => {
       />
     ).toJSON();
 
-    expect(rendered.children[0].children[0].type).toBe('Text');
+    expect(rendered.children[0].type).toBe('Text');
     expect(
-      last(rendered.children[0].children[0].props.style).fontFamily
+      last(rendered.children[0].props.style).fontFamily
     ).toBe('Material Icons');
   });
 
@@ -93,9 +106,9 @@ describe('RightButton', () => {
       />
     ).toJSON();
 
-    expect(rendered.children[0].children[0].type).toBe('Text');
+    expect(rendered.children[0].type).toBe('Text');
     expect(
-      last(rendered.children[0].children[0].props.style).fontFamily
+      last(rendered.children[0].props.style).fontFamily
     ).toBe('Material Icons');
 
     rendered.props.onPress();
@@ -105,15 +118,10 @@ describe('RightButton', () => {
   });
 
   it('When query is empty', () => {
-    jest.mock('TouchableHighlight', () => 'TouchableHighlight');
-    const navigator = {
-      push: jest.fn(),
-    };
-
     const rendered = ReactTestRenderer.create(
       <RightButton
         type={constants.ROUTE_FIND_REACTION}
-        navigator={navigator}
+        navigator={jest.fn()}
         reaction={{}}
         sharing={false}
         state={constants.STATE_EMPTY_QUERY}
@@ -121,13 +129,6 @@ describe('RightButton', () => {
       />
     ).toJSON();
 
-    expect(rendered.children[0].children[0].type).toBe('Text');
-    expect(
-      last(rendered.children[0].children[0].props.style).fontFamily
-    ).toBe('Material Icons');
-
-    rendered.props.onPress();
-
-    expect(navigator.push).toBeCalledWith(routes.about);
+    expect(rendered).toBe(null);
   });
 });

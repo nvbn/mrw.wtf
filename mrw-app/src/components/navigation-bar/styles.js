@@ -7,6 +7,7 @@ export default StyleSheet.create({
   centered: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   titleText: {
     fontSize: 24,
@@ -15,10 +16,7 @@ export default StyleSheet.create({
   icon: {
     fontSize: 32,
     color: '#ffffff',
-  },
-  button: {
-    flex: 1,
-    paddingRight: 5,
-    paddingLeft: 5,
+    marginLeft: 15,
+    marginRight: 15,
   },
 });

@@ -21,55 +21,47 @@ export const LeftButton = ({type}, navigator) => {
     return (
       <TouchableHighlight
         onPress={() => navigator.pop()}
-        style={styles.button}
+        style={styles.centered}
         underlayColor={constants.UNDERLAY_COLOR}
       >
-        <View style={styles.centered}>
-          <Icon style={styles.icon} name="arrow-back"/>
-        </View>
+        <Icon style={styles.icon} name="arrow-back"/>
+      </TouchableHighlight>
+    );
+  } else {
+    return (
+      <TouchableHighlight
+        onPress={() => navigator.push(routes.about)}
+        style={styles.centered}
+        underlayColor={constants.UNDERLAY_COLOR}
+      >
+        <Icon style={styles.icon} name="info"/>
       </TouchableHighlight>
     );
   }
 };
 
-export const RightButton = ({type, navigator, reaction, sharing, state, shareReaction}) => {
+export const RightButton = ({type, reaction, sharing, state, shareReaction}) => {
   if (type === constants.ROUTE_FIND_REACTION) {
     if (sharing) {
       return (
-        <View style={styles.button}>
-          <View style={styles.centered}>
-            <Icon style={styles.icon} name="watch-later"/>
-          </View>
+        <View style={styles.centered}>
+          <Icon style={styles.icon} name="watch-later"/>
         </View>
       );
     } else if (state === constants.STATE_FOUND) {
       return (
         <TouchableHighlight
           onPress={() => shareReaction(reaction)}
-          style={styles.button}
+          style={styles.centered}
           underlayColor={constants.UNDERLAY_COLOR}
         >
-          <View style={styles.centered}>
-            <Icon style={styles.icon} name="share"/>
-          </View>
-        </TouchableHighlight>
-      );
-    } else {
-      return (
-        <TouchableHighlight
-          onPress={() => navigator.push(routes.about)}
-          style={styles.button}
-          underlayColor={constants.UNDERLAY_COLOR}
-        >
-          <View style={styles.centered}>
-            <Icon style={styles.icon} name="info"/>
-          </View>
+          <Icon style={styles.icon} name="share"/>
         </TouchableHighlight>
       );
     }
   }
 
-  return (<View />);
+  return null;
 };
 
 export default (routeMapper) => (
