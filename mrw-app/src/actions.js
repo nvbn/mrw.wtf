@@ -47,8 +47,14 @@ export const fetchReaction = (query) => async(dispatch, getState) => {
     return;
   }
 
-  const blob = await RNFetchBlob.fetch('GET', reaction.url);
-  const uri = await blob.base64();
+  const blob = await RNFetchBlob.config({
+    path: `${RNFetchBlob.fs.dirs.PictureDir}/mrw_app/${reaction.name}.gif`
+  }).fetch('GET', reaction.url);
+
+  await RNFetchBlob.fs.scanFile([{
+    path: blob.path(),
+    mime: 'image/gif',
+  }]);
 
   if (query !== getState().query) {
     return;
@@ -56,7 +62,7 @@ export const fetchReaction = (query) => async(dispatch, getState) => {
 
   dispatch(reactionFetched({
     ...reaction,
-    uri: `data:image/gif;base64,${uri}`,
+    uri: `file://${blob.path()}`,
   }));
   dispatch(changeState(constants.STATE_FOUND));
 };
@@ -71,6 +77,9 @@ export const reactionShared = () => ({
 
 export const shareReaction = ({uri}) => (dispatch) => {
   dispatch(startSharingReaction());
-  Share.open({url: uri});
+  Share.open({
+    url: uri,
+    type: 'image/gif',
+  });
   dispatch(reactionShared());
 };

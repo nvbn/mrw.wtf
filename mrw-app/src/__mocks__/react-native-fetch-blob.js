@@ -1,9 +1,22 @@
 export default {
+  config(...args) {
+    return this;
+  },
+
   async fetch(method, url) {
     return {
-      async base64() {
-        return 'image-in-base-64';
+      path() {
+        return '/image.gif';
       }
     }
+  },
+
+  fs: {
+    async scanFile(...args) {
+    },
+
+    dirs: {
+      PictureDir: '/images',
+    },
   }
 };

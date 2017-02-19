@@ -65,7 +65,7 @@ describe('fetchReaction', () => {
         "name": "t3_2qux51",
         "sentiment": "boredom",
         "title": "MRW I install some new software but I can\'t find it anywhere on my computer [OC]",
-        "uri": "data:image/gif;base64,image-in-base-64",
+        "uri": "file:///image.gif",
         "url": "http://i.imgur.com/cufIziI.gif",
       })],
       [actions.changeState(constants.STATE_FOUND)]]);
@@ -170,7 +170,10 @@ describe('shareReaction', () => {
     ]);
 
     expect(Share.open.mock.calls).toEqual([
-      [{url: "data:image/gif;base64,image-in-base-64"}],
+      [{
+        url: "data:image/gif;base64,image-in-base-64",
+        type: "image/gif",
+      }],
     ]);
   });
 });
