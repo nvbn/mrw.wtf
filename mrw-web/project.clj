@@ -25,5 +25,11 @@
                                                :source-map "resources/public/production/main.js.map"
                                                :asset-path "compiled/"
                                                :output-to "resources/public/production/main.js"
-                                               :output-dir "resources/public/production"}}}}
+                                               :output-dir "resources/public/production"}}
+                       :test {:source-paths ["src/" "test/"]
+                              :figwheel true
+                              :compiler {:main "mrw-web.core-test"
+                                         :asset-path "/tests/"
+                                         :output-to "resources/public/tests/main.js"
+                                         :output-dir "resources/public/tests"}}}}
   :figwheel {:ring-handler mrw-web.handlers/routes})
