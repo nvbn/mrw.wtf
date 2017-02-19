@@ -12,7 +12,7 @@ export default () => (
       <Text style={[styles.link, styles.text]} onPress={() => Linking.openURL('https://mrw.wtf/')}>
         mrw.wtf
       </Text>
-      <Text style={styles.text}> service for searching reaction gifs.</Text>
+      <Text style={styles.text}> is a service for searching reaction gifs.</Text>
     </View>
     <View style={styles.line}>
       <Text style={styles.text}>Powered by </Text>
