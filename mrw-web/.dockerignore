@@ -13,3 +13,5 @@ pom.xml.asc
 resources/public/compiled/
 resources/public/production/
 resources/public/tests/
+.idea
+*.iml

@@ -25,3 +25,10 @@ def deploy():
         put('target/mrw-parser-0.1.0-SNAPSHOT-standalone.jar', '/opt/mrw-parser.jar')
 
     run('systemctl restart mrw-server.service')
+
+
+def update_docker_images():
+    for project in ['mrw-nlp', 'mrw-parser', 'mrw-server', 'mrw-web']:
+        with lcd(project):
+            local('docker build . -t nvbn/{}:latest'.format(project))
+            local('docker push nvbn/{}:latest'.format(project))

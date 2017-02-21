@@ -9,7 +9,6 @@ pom.xml.asc
 /.nrepl-port
 .hgignore
 .hg/
-*.log
-resources/public/compiled/
-resources/public/production/
-resources/public/tests/
+.lein-env
+.idea
+*.iml
