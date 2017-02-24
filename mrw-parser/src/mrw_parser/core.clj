@@ -1,5 +1,6 @@
 (ns mrw-parser.core
   (:require [clojure.tools.cli :refer [parse-opts]]
+            [overtone.at-at :refer [mk-pool every]]
             [mrw-parser.reddit :as reddit]
             [mrw-parser.db :as db]
             [mrw-parser.nlp :refer [get-sentiment]])
@@ -30,4 +31,7 @@
         (condp = (-> parsed-args :options :type)
           :initial (do (db/create-index!)
                        (parse! #(reddit/get-all-top % 1000)))
-          :daily (parse! reddit/get-today-top))))))
+          :daily (let [pool (mk-pool)]
+                   (every (* 12 60 60 1000)
+                          #(parse! reddit/get-today-top)
+                          pool)))))))
