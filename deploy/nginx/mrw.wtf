@@ -1,0 +1,19 @@
+location ~ ^/mrw/ {
+    rewrite .* /index.html;
+}
+
+location /api/ {
+    proxy_pass http://mrw.wtf;
+}
+
+location / {
+    root /home/mrw-web/static/;
+}
+
+location ~ ^/.*\.js {
+    root /home/mrw-web/static/;
+}
+
+location ~ ^/.*\.css {
+    root /home/mrw-web/static/;
+}

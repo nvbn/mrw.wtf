@@ -1,0 +1,76 @@
+elasticsearch:
+  image: "elasticsearch:5"
+  ports:
+    - "9200:9200"
+  volumes:
+    - "/var/mrw/elasticsearch/data/:/usr/share/elasticsearch/data/"
+
+nginx-proxy:
+  image: 'nvbn/mrw-nginx-proxy'
+  ports:
+    - '80:80'
+    - '443:443'
+  volumes:
+    - "/var/mrw/nginx/certs:/etc/nginx/certs:ro"
+    - /etc/nginx/vhost.d
+    - /usr/share/nginx/html
+    - "/var/run/docker.sock:/tmp/docker.sock:ro"
+  volumes_from:
+    - mrw-web
+
+letsencrypt:
+  image: 'jrcs/letsencrypt-nginx-proxy-companion'
+  volumes_from:
+    - nginx-proxy
+  volumes:
+    - "/var/mrw/nginx/certs:/etc/nginx/certs"
+    - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+mrw-nlp:
+  image: "nvbn/mrw-nlp:latest"
+  autoredeploy: true
+  ports:
+    - "5000:5000"
+
+mrw-server:
+  image: "nvbn/mrw-server:latest"
+  autoredeploy: true
+  ports:
+    - "3000:3000"
+  links:
+    - elasticsearch
+    - mrw-nlp
+  environment:
+    - "ELASTICSEARCH_URL=http://elasticsearch:9200"
+    - "ELASTICSEARCH_INDEX=mrw"
+    - "ELASTICSEARCH_MAPPING=reaction"
+    - "NLP_URL=http://mrw-nlp:5000"
+    - "VIRTUAL_HOST=mrw.wtf"
+    - "VIRTUAL_PORT=3000"
+    - "LETSENCRYPT_HOST=mrw.wtf"
+    - "LETSENCRYPT_EMAIL="
+
+mrw-parser:
+  image: "nvbn/mrw-parser:latest"
+  autoredeploy: true
+  links:
+    - elasticsearch
+    - mrw-nlp
+  environment:
+    - "ELASTICSEARCH_URL=http://elasticsearch:9200"
+    - "ELASTICSEARCH_INDEX=mrw"
+    - "ELASTICSEARCH_MAPPING=reaction"
+    - "NLP_URL=http://mrw-nlp:5000"
+    - "REDDIT_USERNAME="
+    - "REDDIT_PASSWORD="
+    - "REDDIT_KEY="
+    - "REDDIT_SECRET="
+    - "IMGUR_ID="
+    - "IMGUR_SECRET="
+
+mrw-web:
+  autoredeploy: true
+  image: "nvbn/mrw-web:latest"
+  volumes:
+    - /home/mrw-web/static/
+  command: /bin/true
