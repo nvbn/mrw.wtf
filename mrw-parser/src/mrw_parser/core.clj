@@ -30,7 +30,7 @@
       (reddit/with-reddit
         (condp = (-> parsed-args :options :type)
           :initial (do (db/create-index!)
-                       (parse! #(reddit/get-all-top % 1000)))
+                       (parse! #(reddit/get-all-top 1000)))
           :daily (let [pool (mk-pool)]
                    (every (* 12 60 60 1000)
                           #(parse! reddit/get-today-top)

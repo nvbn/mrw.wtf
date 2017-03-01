@@ -50,6 +50,7 @@
        (map :data)
        (filter imgur/is-imgur?)
        (map imgur/update-links)
+       (remove nil?)
        (map #(select-keys % [:title :url :name :sentiment]))))
 
 (defn get-today-top

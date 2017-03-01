@@ -1,7 +1,8 @@
 (ns mrw-parser.imgur-test
   (:require [clojure.test :refer [deftest are testing is]]
-            [mrw-parser.imgur :as imgur]
             [clj-http.client :as http]
+            [slingshot.slingshot :refer [throw+]]
+            [mrw-parser.imgur :as imgur]
             [mrw-parser.conf :as conf]))
 
 (deftest test-is-imgur?
@@ -49,16 +50,22 @@
                      :orig-content-encoding "gzip"})
 
 (deftest test-update-links
-  (let [request (atom [])]
+  (testing "When exists on imgur"
+    (let [request (atom [])]
+      (with-redefs [http/get (fn [url data]
+                               (reset! request [url data])
+                               imgur-response)
+                    conf/imgur-id "imgur-id"]
+        (let [reaction (imgur/update-links {:url "http://i.imgur.com/XJfTfpw.gifv"})
+              [url data] @request]
+          (is (= reaction {:url "http://i.imgur.com/XJfTfpw.gif"
+                           :url-video "http://i.imgur.com/XJfTfpw.mp4"}))
+          (is (= url "https://api.imgur.com/3/image/XJfTfpw"))
+          (is (= data {:headers {:User-Agent "mrw-parser.imgur"
+                                 :Authorization "Client-ID imgur-id"}
+                       :as :json}))))))
+  (testing "When doesn't exists on imgur"
     (with-redefs [http/get (fn [url data]
-                             (reset! request [url data])
-                             imgur-response)
-                  conf/imgur-id "imgur-id"]
-      (let [reaction (imgur/update-links {:url "http://i.imgur.com/XJfTfpw.gifv"})
-            [url data] @request]
-        (is (= reaction {:url "http://i.imgur.com/XJfTfpw.gif"
-                         :url-video "http://i.imgur.com/XJfTfpw.mp4"}))
-        (is (= url "https://api.imgur.com/3/image/XJfTfpw"))
-        (is (= data {:headers {:User-Agent "mrw-parser.imgur"
-                               :Authorization "Client-ID imgur-id"}
-                     :as :json}))))))
+                             (throw+ {:status 404}))]
+      (let [reaction (imgur/update-links {:url "http://i.imgur.com/XJfTfpw.gifv"})]
+        (is (nil? reaction))))))
