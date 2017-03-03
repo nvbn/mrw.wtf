@@ -1,4 +1,4 @@
-(ns mrw-parser.imgur-test
+(ns mrw-parser.image-hosting.imgur-test
   (:require [clojure.test :refer [deftest are testing is]]
             [clj-http.client :as http]
             [slingshot.slingshot :refer [throw+]]

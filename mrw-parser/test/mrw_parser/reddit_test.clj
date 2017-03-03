@@ -3,7 +3,7 @@
             [clj-http.client :as http]
             [mrw-parser.reddit :as reddit]
             [mrw-parser.conf :as conf]
-            [mrw-parser.imgur :as imgur]
+            [mrw-parser.image-hosting.imgur :as imgur]
             [mrw-parser.fixtures :refer [reddit-response]]))
 
 (deftest test-get-access-token
