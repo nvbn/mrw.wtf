@@ -19,10 +19,7 @@
                               :as :json})]
       (-> response :body :data))
     (catch Object e
-      (log/error (:throwable &throw-context) "can't fetch urls from imgur")
-      (let [status (:status e)]
-        (when-not (= status 404)
-          (throw+))))))
+      (log/error (:throwable &throw-context) "can't fetch urls from imgur"))))
 
 (defn update-links
   "Put direct url to image."
