@@ -3,7 +3,7 @@
             [clojure.tools.logging :as log]
             [clj-http.client :as http]
             [slingshot.slingshot :refer [try+ throw+]]
-            [mrw-parser.imgur :as imgur]
+            [mrw-parser.image-hosting.core :refer [prepare]]
             [mrw-parser.conf :as conf]))
 
 (def ^:dynamic *access-token*)
@@ -42,14 +42,14 @@
                      (throw+)))]
     (:body response)))
 
+
 (defn- parse-page
   [page]
   (->> page
        :data
        :children
        (map :data)
-       (filter imgur/is-imgur?)
-       (map imgur/update-links)
+       (map prepare)
        (remove nil?)
        (map #(select-keys % [:title :url :name :sentiment]))))
 

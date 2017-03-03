@@ -1,4 +1,4 @@
-(ns mrw-parser.imgur
+(ns mrw-parser.image-hosting.imgur
   (:require [clojure.string :as string]
             [clojure.tools.logging :as log]
             [clj-http.client :as http]
