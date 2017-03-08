@@ -10,6 +10,14 @@
                                                         :sentiment {:type "text"
                                                                     :store true}
                                                         :url {:type "text"
+                                                              :store true}
+                                                        :compound {:type "float"
+                                                                   :store true}
+                                                        :neg {:type "float"
+                                                              :store true}
+                                                        :pos {:type "float"
+                                                              :store true}
+                                                        :neu {:type "float"
                                                               :store true}}}})
 
 (defn create-index!

@@ -3,7 +3,7 @@
             [overtone.at-at :refer [mk-pool every]]
             [mrw-parser.reddit :as reddit]
             [mrw-parser.db :as db]
-            [mrw-parser.nlp :refer [get-sentiment]])
+            [mrw-parser.nlp :refer [get-sentiment get-vader]])
   (:gen-class))
 
 (defn parse!
@@ -12,8 +12,10 @@
   (let [posts (get-posts)
         with-sentiments (map posts #(assoc % :sentiment (get-sentiment (:title %))))]
     (doseq [post posts
-            :let [sentiment (get-sentiment (:title post))]]
-      (db/put! (assoc post :sentiment sentiment)))))
+            :let [sentiment (get-sentiment (:title post))
+                  vader (get-vader (:title post))
+                  reaction (merge post vader {:sentiment sentiment})]]
+      (db/put! post))))
 
 (def cli-options
   [["-t" "--type initial|daily" "Parsing type"
