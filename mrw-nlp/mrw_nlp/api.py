@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from .nlp import get_sentiment
+from .emotions import get_sentiment
 
 app = Flask('mrw-nlp')
 
