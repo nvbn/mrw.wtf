@@ -9,3 +9,11 @@
                             {:form-params {:text text}
                              :as :json})]
     (-> response :body :sentiment)))
+
+(defn get-vader
+  "Get vader from nlp service."
+  [text]
+  (let [response (http/post (str conf/nlp-url "/api/v1/vader/")
+                            {:form-params {:text text}
+                             :as :json})]
+    (-> response :body)))

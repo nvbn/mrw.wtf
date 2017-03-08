@@ -37,18 +37,16 @@
                     conf/elasticsearch-url "http://elastic"
                     conf/elasticsearch-index "mrw"
                     conf/elasticsearch-mapping "reaction"]
-        (let [result (db/search "I lost my keys" "worry")
+        (let [result (db/search "I lost my keys" "worry"
+                                {:pos 0.5 :neg 0.1})
               [url data] @request]
           (is (= result [{:title "MRW nothing got lost in the 'auto-recovery document'",
                           :url "http://i.imgur.com/DsKL8V3.gif",
                           :name "t3_58acpz",
                           :sentiment "worry"}]))
-          (is (= url "http://elastic/mrw/reaction/_search"))
-          (is (= data {:content-type :json
-                       :body (generate-string {:query {:bool {:must {:match {:title "I lost my keys"}}
-                                                              :filter {:term {:sentiment "worry"}}}}})
-                       :as :json}))))))
+          (is (= url "http://elastic/mrw/reaction/_search"))))))
   (testing "When request fails"
     (with-redefs [http/get (fn [url data]
                              (throw (Exception.)))]
-      (is (nil? (db/search "I lost my keys" "worry"))))))
+      (is (nil? (db/search "I lost my keys" "worry"
+                           {:pos 0.5 :neg 0.2}))))))

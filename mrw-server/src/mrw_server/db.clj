@@ -20,14 +20,20 @@
                              :as :json})))
 
 (defn- match
-  [query sentiment]
-  (let [body {:query {:bool {:must {:match {:title query}}
-                             :filter {:term {:sentiment sentiment}}}}}]
+  [query sentiment {:keys [pos neg]}]
+  (let [body {:query
+              {:bool
+               {:must {:match {:title query}}
+                :should [{:range {:pos {:gte (- 0.2 pos)
+                                        :lte (+ 0.2 pos)}}}
+                         {:range {:neg {:gte (- 0.2 neg)
+                                        :lte (+ 0.2 neg)}}}]
+                :filter {:term {:sentiment sentiment}}}}}]
     (search-reaction body)))
 
 (defn search
-  [query sentiment]
+  [query sentiment vader]
   (try+
-    (match query sentiment)
+    (match query sentiment vader)
     (catch Object e
       (log/error "Db request failed" e))))

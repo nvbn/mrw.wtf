@@ -16,3 +16,22 @@
         (is (= url "http://nlp/api/v1/sentiment/"))
         (is (= data {:form-params {:text "I lost my keys"}
                      :as :json}))))))
+
+(deftest test-get-vader
+  (let [request (atom [])]
+    (with-redefs [http/post (fn [url data]
+                              (reset! request [url data])
+                              {:body {:compound 0.4404,
+                                      :neg 0.0,
+                                      :pos 0.744,
+                                      :neu 0.256}})
+                  conf/nlp-url "http://nlp"]
+      (is (= (nlp/get-vader "got a gift")
+             {:compound 0.4404,
+              :neg 0.0,
+              :pos 0.744,
+              :neu 0.256}))
+      (let [[url data] @request]
+        (is (= url "http://nlp/api/v1/vader/"))
+        (is (= data {:form-params {:text "got a gift"}
+                     :as :json}))))))
