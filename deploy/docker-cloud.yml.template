@@ -1,7 +1,7 @@
 elasticsearch:
   image: "elasticsearch:5"
   ports:
-    - "9200:9200"
+    - "9200"
   volumes:
     - "/var/mrw/elasticsearch/data/:/usr/share/elasticsearch/data/"
 
@@ -30,13 +30,13 @@ mrw-nlp:
   image: "nvbn/mrw-nlp:latest"
   autoredeploy: true
   ports:
-    - "5000:5000"
+    - "5000"
 
 mrw-server:
   image: "nvbn/mrw-server:latest"
   autoredeploy: true
   ports:
-    - "3000:3000"
+    - "3000"
   links:
     - elasticsearch
     - mrw-nlp
