@@ -29,7 +29,7 @@
     [:span "Android (not ready)"]
     " or "
     [:span "iOS (not ready)"]
-    " App or use our "
+    " app or use our "
     [:a {:href "http://t.me/mrw_wtf_bot"} "telegram bot"]
     "."]
    [:p "Powered by " [:a {:href "https://www.reddit.com/dev/api/"} "reddit"]
