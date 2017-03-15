@@ -17,3 +17,7 @@ location ~ ^/.*\.js {
 location ~ ^/.*\.css {
     root /home/mrw-web/static/;
 }
+
+location ~ ^/.*\.png {
+    root /home/mrw-web/static/;
+}

@@ -21,4 +21,4 @@ USER mrw-web
 RUN lein cljsbuild once production
 RUN mkdir static
 RUN mv resources/public/production/ static/compiled/
-RUN cp resources/public/index.html resources/public/main.css static/
+RUN cp resources/public/index.html resources/public/favicon.png resources/public/main.css static/
