@@ -13,7 +13,9 @@
                    :style {:width "100%"}
                    :on-change #(fetch-reaction (.. % -currentTarget -value))
                    :default-value default-value
-                   :floating-label-text "MRW"}]])
+                   :floating-label-text "MRW"
+                   :underline-focus-style {:border-color "#4078c0"}
+                   :floating-label-focus-style {:color "#4078c0"}}]])
 
 (defn reaction-gif
   [{:keys [url name title]}]

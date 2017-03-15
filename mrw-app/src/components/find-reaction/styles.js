@@ -5,7 +5,7 @@ export default StyleSheet.create({
     flex: 1,
     padding: 5,
     paddingTop: 50,
-    backgroundColor: '#f5fcff',
+    backgroundColor: '#ffffff',
   },
   reaction: {
     marginTop: 5,
