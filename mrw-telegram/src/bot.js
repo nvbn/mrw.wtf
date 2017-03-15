@@ -33,6 +33,11 @@ class MrwWtfBot {
       chat.id, "Hi, I'm https://mrw.wtf/ bot!\nUse me like:\n/mrw I found a new nice bot");
   }
 
+  sendHelp(chat) {
+    this.bot.sendMessage(
+      chat.id, "I'm https://mrw.wtf/ bot!\nUse me like:\n/mrw I found a new nice bot");
+  }
+
   run() {
     this.bot.onText(
       /\/mrw (.*)/i, ({chat}, [query]) => this.onRequest(chat, query));
@@ -40,6 +45,8 @@ class MrwWtfBot {
       /\/mrw/i, ({chat}) => this.onRequest(chat, "can't find my command"));
     this.bot.onText(
       /\/start/i, ({chat}) => this.sendGreeting(chat));
+    this.bot.onText(
+      /\/help/i, ({chat}) => this.sendHelp(chat));
   }
 }
 

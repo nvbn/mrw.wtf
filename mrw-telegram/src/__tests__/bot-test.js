@@ -12,6 +12,16 @@ describe('Bot', () => {
     expect(text).toMatch(/Hi, I'm/);
   });
 
+  it('Send help on `/help`', () => {
+    const bot = new MrwWtfBot();
+    bot.run();
+    bot.bot.simulateReceivingText({chat: {id: 0}}, '/help');
+
+    const [chatId, text] = bot.bot.sendMessage.mock.calls[0];
+    expect(chatId).toBe(0);
+    expect(text).toMatch(/Use me like/);
+  });
+
   it('Send =( smile on `/mrw` when reaction not found', () => {
     const bot = new MrwWtfBot();
     bot.run();
