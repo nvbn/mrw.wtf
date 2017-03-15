@@ -25,6 +25,13 @@
 (defn footer
   []
   [ui/paper {:id "footer"}
+   [:p "For more features you can download "
+    [:span "Android (not ready)"]
+    " or "
+    [:span "iOS (not ready)"]
+    " App or use our "
+    [:a {:href "http://t.me/mrw_wtf_bot"} "telegram bot"]
+    "."]
    [:p "Powered by " [:a {:href "https://www.reddit.com/dev/api/"} "reddit"]
     " and " [:a {:href "https://api.imgur.com/"} "imgur"] " api. "
     "Source code available on "

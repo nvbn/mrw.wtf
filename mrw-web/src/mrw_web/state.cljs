@@ -22,7 +22,9 @@
 
 (defn fetch-reaction
   [query]
-  (swap! state assoc :query query)
+  (swap! state assoc
+         :query query
+         :reaction nil)
   (go (when-not (<! (is-query-changed? query))
         (.. js/history (pushState #js {} (str "mrw " query) (str "/mrw/" query)))
         (let [{[reaction] :body} (<! (http/get "/api/v1/search/"
