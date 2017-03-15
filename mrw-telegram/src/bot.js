@@ -40,13 +40,13 @@ class MrwWtfBot {
 
   run() {
     this.bot.onText(
-      /\/mrw (.*)/i, ({chat}, [query]) => this.onRequest(chat, query));
+      /^\/mrw (.*)$/i, ({chat}, [query]) => this.onRequest(chat, query));
     this.bot.onText(
-      /\/mrw/i, ({chat}) => this.onRequest(chat, "can't find my command"));
+      /^\/mrw$/i, ({chat}) => this.onRequest(chat, "can't find my command"));
     this.bot.onText(
-      /\/start/i, ({chat}) => this.sendGreeting(chat));
+      /^\/start$/i, ({chat}) => this.sendGreeting(chat));
     this.bot.onText(
-      /\/help/i, ({chat}) => this.sendHelp(chat));
+      /^\/help$/i, ({chat}) => this.sendHelp(chat));
   }
 }
 
