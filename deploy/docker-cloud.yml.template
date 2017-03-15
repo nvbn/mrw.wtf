@@ -74,3 +74,12 @@ mrw-web:
   volumes:
     - /home/mrw-web/static/
   command: /bin/true
+
+mrw-telegram:
+  autoredeploy: true
+  image: "nvbn/mrw-telegram:latest"
+  links:
+    - mrw-server
+  environment:
+    - "MRW_WTF_API=http://mrw-server:3000"
+    - "TELEGRAM_TOKEN="
