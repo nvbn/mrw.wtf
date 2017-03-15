@@ -4,4 +4,4 @@
 
 (enable-console-print!)
 
-(run-all-tests #"mrw-web.*-test")
+(def ^:export test-result (run-all-tests #"mrw-web.*-test"))

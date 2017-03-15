@@ -31,5 +31,12 @@
                               :compiler {:main "mrw-web.core-test"
                                          :asset-path "/tests/"
                                          :output-to "resources/public/tests/main.js"
-                                         :output-dir "resources/public/tests"}}}}
+                                         :output-dir "resources/public/tests"}}
+                       :headless-test {:source-paths ["src/" "test/"]
+                                       :compiler {:output-to "resources/phantom/compiled.js"
+                                                  :optimizations :whitespace
+                                                  :pretty-print true}}}
+              :test-commands {"headless-test" ["phantomjs"
+                                               "resources/phantom/test.js"
+                                               "resources/phantom/tests.html"]}}
   :figwheel {:ring-handler mrw-web.handlers/routes})
