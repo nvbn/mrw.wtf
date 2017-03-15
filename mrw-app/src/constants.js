@@ -14,8 +14,6 @@ export const ROUTE_FIND_REACTION = 'ROUTE_FIND_REACTION';
 
 export const ROUTE_ABOUT = 'ROUTE_ABOUT';
 
-export const UNDERLAY_COLOR = '#00ACC1';
-
 export const STATE_EMPTY_QUERY = 'STATE_EMPTY_QUERY';
 
 export const STATE_SEARCHING = 'STATE_SEARCHING';

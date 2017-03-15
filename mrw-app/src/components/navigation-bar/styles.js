@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   bar: {
-    backgroundColor: '#00bcd4',
+    backgroundColor: '#4078c0',
   },
   centered: {
     flex: 1,
@@ -15,8 +15,10 @@ export default StyleSheet.create({
   },
   icon: {
     fontSize: 32,
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingLeft: 15,
+    paddingRight: 15,
     color: '#ffffff',
-    marginLeft: 15,
-    marginRight: 15,
   },
 });

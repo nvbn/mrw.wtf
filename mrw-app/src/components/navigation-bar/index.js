@@ -2,7 +2,7 @@ import  React from 'react';
 import {
   Text,
   View,
-  TouchableHighlight,
+  TouchableNativeFeedback,
   Navigator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -19,23 +19,23 @@ export const Title = ({title}) => (
 export const LeftButton = ({type}, navigator) => {
   if (type === constants.ROUTE_ABOUT) {
     return (
-      <TouchableHighlight
+      <TouchableNativeFeedback
         onPress={() => navigator.pop()}
         style={styles.centered}
-        underlayColor={constants.UNDERLAY_COLOR}
+        background={TouchableNativeFeedback.SelectableBackground()}
       >
         <Icon style={styles.icon} name="arrow-back"/>
-      </TouchableHighlight>
+      </TouchableNativeFeedback>
     );
   } else {
     return (
-      <TouchableHighlight
+      <TouchableNativeFeedback
         onPress={() => navigator.push(routes.about)}
         style={styles.centered}
-        underlayColor={constants.UNDERLAY_COLOR}
+        background={TouchableNativeFeedback.SelectableBackground()}
       >
         <Icon style={styles.icon} name="info"/>
-      </TouchableHighlight>
+      </TouchableNativeFeedback>
     );
   }
 };
@@ -50,13 +50,13 @@ export const RightButton = ({type, reaction, sharing, state, shareReaction}) => 
       );
     } else if (state === constants.STATE_FOUND) {
       return (
-        <TouchableHighlight
+        <TouchableNativeFeedback
           onPress={() => shareReaction(reaction)}
           style={styles.centered}
-          underlayColor={constants.UNDERLAY_COLOR}
+          background={TouchableNativeFeedback.SelectableBackground()}
         >
           <Icon style={styles.icon} name="share"/>
-        </TouchableHighlight>
+        </TouchableNativeFeedback>
       );
     }
   }

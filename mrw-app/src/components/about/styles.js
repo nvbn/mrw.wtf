@@ -5,6 +5,7 @@ export default StyleSheet.create({
     flex: 1,
     padding: 5,
     paddingTop: 60,
+    backgroundColor: '#f5fcff',
   },
   line: {
     flexDirection: 'row',

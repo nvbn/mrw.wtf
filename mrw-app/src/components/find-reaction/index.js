@@ -5,7 +5,6 @@ import {
   Image,
   Dimensions,
   Text,
-  TouchableHighlight,
 } from 'react-native';
 import * as constants from '../../constants';
 import styles from './styles';
@@ -91,7 +90,7 @@ class FindReaction extends Component {
           <TextInput defaultValue={this.props.query}
                      onChangeText={this._changeQuery}
                      placeholder="My reaction when..."
-                     underlineColorAndroid="#00bcd4"
+                     underlineColorAndroid="#4078c0"
           />
         </View>
         <View style={styles.reaction}>
