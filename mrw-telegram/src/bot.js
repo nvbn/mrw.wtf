@@ -37,6 +37,8 @@ class MrwWtfBot {
     this.bot.onText(
       /\/mrw (.*)/i, ({chat}, [query]) => this.onRequest(chat, query));
     this.bot.onText(
+      /\/mrw/i, ({chat}) => this.onRequest(chat, "can't find my command"));
+    this.bot.onText(
       /\/start/i, ({chat}) => this.sendGreeting(chat));
   }
 }

@@ -54,4 +54,19 @@ describe('Bot', () => {
     expect(chatId).toBe(0);
     expect(text).toBe('http://i.imgur.com/lmr0gjK.gif');
   });
+
+  it("Uses `can't find my command` as a query if query not present", () => {
+    const bot = new MrwWtfBot();
+    bot.run();
+
+    const response = '[{"title":"MRW I quit my shitty office job","url":"http://i.imgur.com/lmr0gjK.gif","name":"t3_4dgozu","sentiment":"sadness"}]';
+    request.mockImplementation(
+      (url, callback) => callback(null, {}, response));
+
+    bot.bot.simulateReceivingText({chat: {id: 0}}, '/mrw');
+
+    const [chatId, text] = bot.bot.sendVideo.mock.calls[0];
+    expect(chatId).toBe(0);
+    expect(text).toBe('http://i.imgur.com/lmr0gjK.gif');
+  });
 });
