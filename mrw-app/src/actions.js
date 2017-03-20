@@ -21,6 +21,7 @@ export const changeState = (state) => ({
 
 export const fetchReaction = (query) => async(dispatch, getState) => {
   dispatch(changeQuery(query));
+
   if (!query) {
     dispatch(changeState(constants.STATE_EMPTY_QUERY));
     return;
@@ -29,7 +30,7 @@ export const fetchReaction = (query) => async(dispatch, getState) => {
   dispatch(changeState(constants.STATE_SEARCHING));
 
   await timeout(300);
-  if (query !== getState().query) {
+  if (query !== getState().reactions.query) {
     return;
   }
 
@@ -37,7 +38,7 @@ export const fetchReaction = (query) => async(dispatch, getState) => {
     `${config.API_URL}${constants.API_REACTION_ENDPOINT}?query=${query}`);
   const [reaction, ..._] = await response.json();
 
-  if (query !== getState().query) {
+  if (query !== getState().reactions.query) {
     return;
   }
 
@@ -56,7 +57,7 @@ export const fetchReaction = (query) => async(dispatch, getState) => {
     mime: 'image/gif',
   }]);
 
-  if (query !== getState().query) {
+  if (query !== getState().reactions.query) {
     return;
   }
 
@@ -75,10 +76,10 @@ export const reactionShared = () => ({
   type: constants.ACTION_REACTION_SHARED,
 });
 
-export const shareReaction = ({uri}) => (dispatch) => {
+export const shareReaction = () => (dispatch, getState) => {
   dispatch(startSharingReaction());
   Share.open({
-    url: uri,
+    url: getState().reactions.reaction.uri,
     type: 'image/gif',
   });
   dispatch(reactionShared());

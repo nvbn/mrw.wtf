@@ -5,17 +5,51 @@ import {
   Image,
   Dimensions,
   Text,
+  TouchableNativeFeedback,
+  StatusBar,
 } from 'react-native';
 import * as constants from '../../constants';
+import { shareReaction } from "../../actions";
+import navigationOptions from '../../navigator/navigationOptions';
+import HeaderButton from '../header-button';
 import styles from './styles';
 
+type Props = {
+  query: string,
+  reaction: {url: string, name: string, title: string, uri: string},
+  fetchReaction: (query: string) => void,
+  sharing: boolean,
+  state: string,
+};
+
 class FindReaction extends Component {
-  propTypes: {
-    query: string,
-    reaction: {url: string, name: string, title: string, uri: string},
-    fetchReaction: (query: string) => void,
-    sharing: boolean,
-    state: string,
+  props: Props;
+
+  static navigationOptions = {
+    title: 'MRW',
+    header: ({navigate, state, dispatch}) => {
+      const getRight = () => {
+        if (state.params.sharing === constants.SHARING_AVAILABLE) {
+          return (
+            <HeaderButton
+              onPress={() => dispatch(shareReaction())}
+              icon="share"
+            />
+          );
+        }
+      };
+
+      return {
+        left: (
+          <HeaderButton
+            onPress={() => navigate(constants.ROUTE_ABOUT)}
+            icon="info"
+          />
+        ),
+        right: getRight(),
+        ...navigationOptions.header(),
+      }
+    },
   };
 
   constructor() {
@@ -86,6 +120,7 @@ class FindReaction extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar backgroundColor={constants.HEADER_COLOR}/>
         <View>
           <TextInput defaultValue={this.props.query}
                      onChangeText={this._changeQuery}

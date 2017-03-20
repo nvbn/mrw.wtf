@@ -54,7 +54,7 @@ describe('fetchReaction', () => {
     });
 
     const action = actions.fetchReaction("I can't fall")(
-      dispatch, () => ({query: "I can't fall"}));
+      dispatch, () => ({reactions: {query: "I can't fall"}}));
     jest.runAllTimers();
     await action;
 
@@ -82,7 +82,7 @@ describe('fetchReaction', () => {
     });
 
     const action = actions.fetchReaction("I can't fall")(
-      dispatch, () => ({query: "I can't fall"}));
+      dispatch, () => ({reactions: {query: "I can't fall"}}));
     jest.runAllTimers();
     await action;
 
@@ -105,7 +105,7 @@ describe('fetchReaction', () => {
     });
 
     const action = actions.fetchReaction("I can't fall")(
-      dispatch, () => ({query: "I'm too old"}));
+      dispatch, () => ({reactions: {query: "I'm too old"}}));
     jest.runAllTimers();
     await action;
 
@@ -126,7 +126,7 @@ describe('fetchReaction', () => {
     });
 
     const action = actions.fetchReaction("")(
-      dispatch, () => ({query: ""}));
+      dispatch, () => ({reactions: {query: ""}}));
     jest.runAllTimers();
     await action;
 
@@ -160,9 +160,9 @@ describe('reactionShared', () => {
 describe('shareReaction', () => {
   it('Share reaction', () => {
     const dispatch = jest.fn();
-    actions.shareReaction({
-      uri: "data:image/gif;base64,image-in-base-64",
-    })(dispatch);
+    actions.shareReaction()(dispatch, () => (
+      {reactions: {reaction: {uri: "data:image/gif;base64,image-in-base-64"}}}
+    ));
 
     expect(dispatch.mock.calls).toEqual([
       [actions.startSharingReaction()],

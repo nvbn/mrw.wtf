@@ -1,10 +1,10 @@
-import reducer from '../reducer';
-import * as actions from '../actions';
-import * as constants from "../constants";
+import reactions from '../reactions';
+import * as actions from '../../actions';
+import * as constants from "../../constants";
 
 describe('Reducer', () => {
   it('Have initial value', () => {
-    const state = reducer(undefined, {type: 'FAKE_ACTION'});
+    const state = reactions(undefined, {type: 'FAKE_ACTION'});
 
     expect(state).toEqual({
       reaction: {},
@@ -21,7 +21,7 @@ describe('Reducer', () => {
     };
     Object.freeze(initialState);
 
-    const state = reducer(initialState, actions.changeQuery('forgot my keys'));
+    const state = reactions(initialState, actions.changeQuery('forgot my keys'));
     expect(state).toEqual({
       reaction: {},
       query: 'forgot my keys',
@@ -36,7 +36,7 @@ describe('Reducer', () => {
     };
     Object.freeze(initialState);
 
-    const state = reducer(initialState, actions.reactionFetched(
+    const state = reactions(initialState, actions.reactionFetched(
       {url: 'test'}
     ));
     expect(state).toEqual({
@@ -55,7 +55,7 @@ describe('Reducer', () => {
     };
     Object.freeze(initialState);
 
-    const state = reducer(initialState, actions.startSharingReaction());
+    const state = reactions(initialState, actions.startSharingReaction());
     expect(state).toEqual({
       state: constants.STATE_FOUND,
       reaction: {url: 'test'},
@@ -73,7 +73,7 @@ describe('Reducer', () => {
     };
     Object.freeze(initialState);
 
-    const state = reducer(initialState, actions.reactionShared());
+    const state = reactions(initialState, actions.reactionShared());
     expect(state).toEqual({
       state: constants.STATE_FOUND,
       reaction: {url: 'test'},
@@ -88,7 +88,7 @@ describe('Reducer', () => {
     };
     Object.freeze(initialState);
 
-    const state = reducer(initialState, actions.changeState(constants.STATE_SEARCHING));
+    const state = reactions(initialState, actions.changeState(constants.STATE_SEARCHING));
     expect(state).toEqual({
       state: constants.STATE_SEARCHING,
     });

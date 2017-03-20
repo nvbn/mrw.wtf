@@ -13,6 +13,7 @@
     "react-native-fetch-blob": "^0.10.2",
     "react-native-share": "^1.0.20",
     "react-native-vector-icons": "^4.0.0",
+    "react-navigation": "^1.0.0-beta.7",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
     "redux-persist": "^4.4.0",

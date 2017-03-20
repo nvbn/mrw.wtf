@@ -3,7 +3,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { persistStore } from "redux-persist";
 import devToolsEnhancer from 'remote-redux-devtools';
-import reducer from './reducer';
+import reducers from './reducers';
 import * as config from '../config';
 
 export default () => {
@@ -13,7 +13,7 @@ export default () => {
     applied = compose(applied, devToolsEnhancer({realtime: true}));
   }
 
-  const store = createStore(reducer, undefined, applied);
+  const store = createStore(reducers, undefined, applied);
   if (!config.DEBUG) {
     persistStore(store, {storage: AsyncStorage});
   }
