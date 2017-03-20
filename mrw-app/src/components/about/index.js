@@ -4,7 +4,6 @@ import {
   Text,
   Linking,
 } from 'react-native';
-import { TouchableItem } from 'react-navigation';
 import styles from './styles';
 
 class About extends Component {
