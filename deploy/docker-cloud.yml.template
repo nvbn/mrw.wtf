@@ -73,7 +73,6 @@ mrw-web:
   image: "nvbn/mrw-web:latest"
   volumes:
     - /home/mrw-web/static/
-  command: /bin/true
 
 mrw-telegram:
   autoredeploy: true

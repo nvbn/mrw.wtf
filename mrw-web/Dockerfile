@@ -1,8 +1,6 @@
 FROM openjdk:8
 MAINTAINER Vladimir Iakovlev <nvbn.rm@gmail.com>
 
-EXPOSE 3000
-
 RUN apt-get update -yqq
 RUN apt-get upgrade -yqq
 RUN apt-get install curl -yqq --no-install-recommends
@@ -22,3 +20,5 @@ RUN lein cljsbuild once production
 RUN mkdir static
 RUN mv resources/public/production/ static/compiled/
 RUN cp resources/public/index.html resources/public/favicon.png resources/public/main.css static/
+
+CMD /bin/true
