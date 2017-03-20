@@ -6,25 +6,25 @@
 
 (deftest test-get-sentiment
   (let [request (atom [])]
-    (with-redefs [http/post (fn [url data]
-                              (reset! request [url data])
-                              {:body {:sentiment "worry"}})
+    (with-redefs [http/get (fn [url data]
+                             (reset! request [url data])
+                             {:body {:sentiment "worry"}})
                   conf/nlp-url "http://nlp"]
       (is (= (nlp/get-sentiment "I lost my keys")
              "worry"))
       (let [[url data] @request]
         (is (= url "http://nlp/api/v1/sentiment/"))
-        (is (= data {:form-params {:text "I lost my keys"}
+        (is (= data {:query-params {:text "I lost my keys"}
                      :as :json}))))))
 
 (deftest test-get-vader
   (let [request (atom [])]
-    (with-redefs [http/post (fn [url data]
-                              (reset! request [url data])
-                              {:body {:compound 0.4404,
-                                      :neg 0.0,
-                                      :pos 0.744,
-                                      :neu 0.256}})
+    (with-redefs [http/get (fn [url data]
+                             (reset! request [url data])
+                             {:body {:compound 0.4404,
+                                     :neg 0.0,
+                                     :pos 0.744,
+                                     :neu 0.256}})
                   conf/nlp-url "http://nlp"]
       (is (= (nlp/get-vader "got a gift")
              {:compound 0.4404,
@@ -33,5 +33,5 @@
               :neu 0.256}))
       (let [[url data] @request]
         (is (= url "http://nlp/api/v1/vader/"))
-        (is (= data {:form-params {:text "got a gift"}
+        (is (= data {:query-params {:text "got a gift"}
                      :as :json}))))))

@@ -11,7 +11,10 @@
                                           :url "http://i.imgur.com/DsKL8V3.gif",
                                           :name "t3_58acpz",
                                           :sentiment "worry"}])
-                  nlp/get-sentiment (constantly "worry")]
+                  nlp/get-sentiment (constantly "worry")
+                  nlp/get-vader (constantly {:pos 0.5
+                                             :neu 0.5
+                                             :neg 0.5})]
       (let [result (-> (mock/request :get "/api/v1/search/")
                        (assoc :query-params {"query" "I lost my keys"})
                        search)]
@@ -23,7 +26,10 @@
                                :sentiment "worry"}]})))))
   (testing "When reaction nout found"
     (with-redefs [db/search (constantly [])
-                  nlp/get-sentiment (constantly "worry")]
+                  nlp/get-sentiment (constantly "worry")
+                  nlp/get-vader (constantly {:pos 0.5
+                                             :neu 0.5
+                                             :neg 0.5})]
       (let [result (-> (mock/request :get "/api/v1/search/")
                        (assoc :query-params {"query" "I lost my keys"})
                        search)]

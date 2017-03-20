@@ -5,15 +5,15 @@
 
 (defn get-sentiment
   [text]
-  (let [response (http/post (str conf/nlp-url "/api/v1/sentiment/")
-                            {:form-params {:text text}
-                             :as :json})]
+  (let [response (http/get (str conf/nlp-url "/api/v1/sentiment/")
+                           {:query-params {:text text}
+                            :as :json})]
     (-> response :body :sentiment)))
 
 (defn get-vader
   "Get vader from nlp service."
   [text]
-  (let [response (http/post (str conf/nlp-url "/api/v1/vader/")
-                            {:form-params {:text text}
-                             :as :json})]
+  (let [response (http/get (str conf/nlp-url "/api/v1/vader/")
+                           {:query-params {:text text}
+                            :as :json})]
     (-> response :body)))
