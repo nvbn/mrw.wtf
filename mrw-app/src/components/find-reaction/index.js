@@ -43,7 +43,7 @@ class FindReaction extends Component {
         left: (
           <HeaderButton
             onPress={() => navigate(constants.ROUTE_ABOUT)}
-            icon="info"
+            icon="information-circle"
           />
         ),
         right: getRight(),
@@ -126,6 +126,7 @@ class FindReaction extends Component {
                      onChangeText={this._changeQuery}
                      placeholder="My reaction when..."
                      underlineColorAndroid="#4078c0"
+                     autoFocus={true}
           />
         </View>
         <View style={styles.reaction}>
