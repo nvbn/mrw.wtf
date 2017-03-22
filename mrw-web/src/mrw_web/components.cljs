@@ -28,7 +28,7 @@
   []
   [ui/paper {:id "footer"}
    [:p "For more features you can download "
-    [:span "Android (not ready)"]
+    [:a {:href "https://play.google.com/store/apps/details?id=com.mrwapp"} "Android"]
     " or "
     [:span "iOS (not ready)"]
     " app or use our "
