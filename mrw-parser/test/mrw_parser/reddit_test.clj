@@ -32,7 +32,7 @@
       (is (= reddit/*access-token* "token")))))
 
 (def reaction {:title "When someone stole my lunch out of the break-room fridge for the 3rd day in a row"
-               :url "http://i.imgur.com/2BT0LZE.gif"
+               :url "https://i.imgur.com/2BT0LZE.gif"
                :name "t3_5umb2h"})
 
 (defmacro with-reddit-request

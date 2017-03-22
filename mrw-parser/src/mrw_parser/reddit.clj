@@ -42,6 +42,13 @@
                      (throw+)))]
     (:body response)))
 
+(defn- is-gif?
+  [{:keys [url]}]
+  (string/ends-with? url ".gif"))
+
+(defn- http-to-https
+  [reaction]
+  (update reaction :url string/replace "http://" "https://"))
 
 (defn- parse-page
   [page]
@@ -51,6 +58,8 @@
        (map :data)
        (map prepare)
        (remove nil?)
+       (filter is-gif?)
+       (map http-to-https)
        (map #(select-keys % [:title :url :name :sentiment]))))
 
 (defn get-today-top
